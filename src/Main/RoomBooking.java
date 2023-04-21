@@ -27,23 +27,15 @@ public class RoomBooking extends javax.swing.JFrame {
     String filePath = "";
     ArrayList<Room> rBookList;
     int currentRow = -1;
-    int countRoom = 0;
     int countNight = 0;
     int floor = 0;
 
-    
-    public RoomBooking ( Login aThis )
+    public RoomBooking (String username, Login aThis)
     {
         initComponents();
         frontScreen = aThis;
-        this.setLocationRelativeTo(null);
-    }
-    /**
-     * Creates new form RoomBooking
-     */
-    public RoomBooking() {
-        initComponents();
         initTable(); 
+        this.setLocationRelativeTo(null);
         
         tbRoomBook.setDefaultEditor(Object.class, null);
         
@@ -59,8 +51,14 @@ public class RoomBooking extends javax.swing.JFrame {
         {
             showMess("No room booking at the moment");
         }
-        
-        this.setLocationRelativeTo(null);
+    }
+    /**
+     * Creates new form RoomBooking
+     */
+    public RoomBooking() 
+    {
+        initComponents();
+        this.setLocationRelativeTo(null);        
     }
 
     private void fillToTable()
@@ -104,14 +102,8 @@ public class RoomBooking extends javax.swing.JFrame {
         String roomNo = this.grRoom.getSelection().getActionCommand();
         Double price = 50000.00;
         String nightNo = txtNight.getText();
-        Double total = price * countRoom * countNight;
+        Double total = price * countNight;
         txtTotal.setText(total + "");
-//        Date bDate = txtDate.getDate();
-//        String date = XDate.DateToString(bDate);
-        
-//        Room r = new Room(ID, floorNo, roomNo, price, nightNo, total, date);
-//        rBookList.add(r);
-//        System.out.println(bDate);
         
         LocalDate prensentDate = LocalDate.now(); 
         Date getDate = txtDate.getDate();
@@ -156,6 +148,7 @@ public class RoomBooking extends javax.swing.JFrame {
             Room r = new Room(ID, floorNo, roomNo, price, nightNo, total, date);
             rBookList.add(r);
         }
+        
     }
     
     private void saveFile()
@@ -194,7 +187,7 @@ public class RoomBooking extends javax.swing.JFrame {
     private void delete()
     {
         int result = JOptionPane.showConfirmDialog(this, "Do you want to delete ?", "Delete ?", 
-                                                   JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                     JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         
         if ( result == JOptionPane.YES_OPTION)
         {
@@ -208,7 +201,6 @@ public class RoomBooking extends javax.swing.JFrame {
         grRoom.getSelection().setSelected(false);
         txtID.setText(null);
         txtFloor.setText(null);
-        txtRoom.setText(null);
         txtNight.setText(null);
         txtDate.setDate(null);
         txtTotal.setText(null);
@@ -241,10 +233,12 @@ public class RoomBooking extends javax.swing.JFrame {
         grRoom = new javax.swing.ButtonGroup();
         jPanel3 = new javax.swing.JPanel();
         btnExit = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        txtUsername = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        lbBack = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtNight = new javax.swing.JTextField();
@@ -257,8 +251,6 @@ public class RoomBooking extends javax.swing.JFrame {
         txtID = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         txtFloor = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        txtRoom = new javax.swing.JTextField();
         txtDate = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -307,20 +299,34 @@ public class RoomBooking extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("WELCOME,");
+
+        txtUsername.setBackground(new java.awt.Color(0, 0, 0));
+        txtUsername.setForeground(new java.awt.Color(255, 255, 255));
+        txtUsername.setBorder(null);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addComponent(btnExit)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(8, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(btnExit))
                 .addContainerGap())
         );
 
@@ -331,7 +337,7 @@ public class RoomBooking extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ROOM BOOKING");
+        jLabel1.setText("NINH KIEU HOTEL - ROOM BOOKING");
         jLabel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -340,8 +346,8 @@ public class RoomBooking extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(254, 254, 254))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(197, 197, 197))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,9 +360,15 @@ public class RoomBooking extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-back.gif"))); // NOI18N
-        jLabel4.setText("BACK TO LOGIN");
+        lbBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-back.gif"))); // NOI18N
+        lbBack.setText("BACK TO LOGIN");
+        lbBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbBackMouseClicked(evt);
+            }
+        });
 
+        jLabel9.setBackground(new java.awt.Color(204, 204, 204));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Date");
         jLabel9.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
@@ -410,13 +422,6 @@ public class RoomBooking extends javax.swing.JFrame {
         txtFloor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtFloor.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Count");
-        jLabel14.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
-
-        txtRoom.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtRoom.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-
         txtDate.setDateFormatString("d/M/y");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -425,10 +430,10 @@ public class RoomBooking extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lbBack, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addComponent(btnBookRoom)
@@ -436,10 +441,6 @@ public class RoomBooking extends javax.swing.JFrame {
                         .addComponent(btnDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -449,23 +450,27 @@ public class RoomBooking extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNight, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtNight, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(8, 8, 8)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -475,27 +480,19 @@ public class RoomBooking extends javax.swing.JFrame {
                     .addComponent(txtFloor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(txtRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(txtNight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBookRoom)
                     .addComponent(btnDelete)
                     .addComponent(btnUpdate))
-                .addGap(43, 43, 43)
-                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addComponent(lbBack)
                 .addContainerGap())
         );
 
@@ -516,18 +513,22 @@ public class RoomBooking extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("FLOOR 2ND");
         jLabel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("FLOOR 1ST");
         jLabel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("FLOOR 3RD");
         jLabel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("FLOOR 4TH");
         jLabel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
@@ -724,6 +725,7 @@ public class RoomBooking extends javax.swing.JFrame {
         );
 
         tbRoomBook.setBackground(new java.awt.Color(204, 204, 204));
+        tbRoomBook.setForeground(new java.awt.Color(255, 255, 255));
         tbRoomBook.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -790,10 +792,6 @@ public class RoomBooking extends javax.swing.JFrame {
                 JCheckBox btn = (JCheckBox) c;
                 if (btn.isSelected())
                 {
-                    countRoom++;
-                    txtRoom.setText(countRoom+"");
-                    countRoom = 0;
-                    
                     int action = Integer.parseInt(btn.getText().substring(btn.getText().lastIndexOf(" ") + 1));
                     cal(action);       
                 }
@@ -826,8 +824,63 @@ public class RoomBooking extends javax.swing.JFrame {
         result = 0;
     }
     
+    private boolean Check()
+    {
+        String ID = txtID.getText().trim();
+        String night = txtNight.getText().trim();
+        
+        if ( txtID.getText().trim().isEmpty() )
+        {
+            JOptionPane.showMessageDialog(null, "! Please enter ID !", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        if ( txtDate.getDate().toString().trim().isEmpty() )
+        {
+            JOptionPane.showMessageDialog(null, "! Please enter Date !", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        if ( txtNight.getText().trim().isEmpty() )
+        {
+            JOptionPane.showMessageDialog(null, "! Please enter Night !", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+     
+        try 
+        {
+            if (night.length() < 0)
+            {
+                JOptionPane.showMessageDialog(null, "! Night can not be negative !", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } 
+        catch (NumberFormatException e) 
+        {
+            JOptionPane.showMessageDialog(null, "! Night must be a number !", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        try 
+        {    
+            if (ID.length() < 0)
+            {
+                JOptionPane.showMessageDialog(null, "! ID can not be negative !", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } 
+        catch (NumberFormatException e) 
+        {
+            JOptionPane.showMessageDialog(null, "! ID must be a number !", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        return true;
+    }
+    
     private void btnBookRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookRoomActionPerformed
         // TODO add your handling code here:
+        Check();
         bookRoom();
         fillToTable();
         saveFile();
@@ -853,7 +906,12 @@ public class RoomBooking extends javax.swing.JFrame {
         showDetail(currentRow);
     }//GEN-LAST:event_tbRoomBookMousePressed
 
-    
+    private void lbBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBackMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+        frontScreen.setVisible(true);
+    }//GEN-LAST:event_lbBackMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -921,7 +979,6 @@ public class RoomBooking extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -934,12 +991,13 @@ public class RoomBooking extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbBack;
     private javax.swing.JTable tbRoomBook;
     private com.toedter.calendar.JDateChooser txtDate;
     private javax.swing.JTextField txtFloor;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNight;
-    private javax.swing.JTextField txtRoom;
     private javax.swing.JTextField txtTotal;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

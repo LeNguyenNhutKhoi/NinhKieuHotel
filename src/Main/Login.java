@@ -5,7 +5,6 @@
 package Main;
 
 import Model.Account;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 /**
  *
@@ -13,8 +12,6 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
-    String filePath = "";
-    ArrayList<Account> accList;
     /**
      * Creates new form Login
      */
@@ -215,29 +212,30 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-       String username = txtUsername.getName();
        /*
        tại vì paswordfield get Text bị cấm (vì nguye hiem vs jdk 8 xài, còn mình dung jdk 19)
        => người ta thay thế thành getPassword(), hàm này trả về char[]
        tại vì nó muốn ngta biết hàm này có thể sủ dụng trong version hấp hơn
        */
+       String username = txtUsername.getText();
        String password = String.valueOf(txtPassword.getPassword());
-       
+       RoomBooking rb = null;
+
        Account acc = new Account("acc", "12345");
                      
        Account testAcc = new Account(username, password);
-       RoomBooking rb = null;
        boolean login = false;
        
        if (acc.equals(testAcc))
        {
+           rb = new RoomBooking(username, this);
            login = true;
        }
       
        if (login)
        {
-           this.setVisible(false);
            rb.setVisible(true);
+           this.setVisible(false);
        }
        else 
        {
